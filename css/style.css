@@ -1384,3 +1384,21 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
       content: "\f095"; }
     .site-footer ul.quick-info li.address:before {
       content: "\e8b4"; }
+
+.floating-button {
+  width: 80px;
+  height: 80px;
+  background: #6998AB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 40px;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.3);
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  /* transition: background 0.25s; */
+}
