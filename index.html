@@ -223,7 +223,24 @@
     </script>
 
     <script src="js/custom.js"></script>
-    <script src="js/script.js"></script>
+    <script>
+        var allVids = document.querySelector('.userVideos')
+        fetch("http://localhost:5001")
+        .then(res=>res.json())
+        .then(data=>{
+            data.forEach(element => {
+                var name = element.name;
+                var description = element.description;
+                var newCard = document.createElement("div");
+                newCard.innerText += name
+                newCard.innerText += description
+                allVids.innerHTML += newCard;
+                
+
+            });
+        });
+        
+    </script>
 </body>
 
 </html>

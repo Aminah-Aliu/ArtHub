@@ -32,7 +32,7 @@ const node = document.createTextNode("This is a paragraph.");
 
 para.appendChild(node);
 console.log(document.getElementsByClassName("dynCards")[0]);
-document.getElementById("dynCardsStart").appendChild(para);
+document.querySelector('#insCards').appendChild(para);
 
 // for (var i=0; i < limit; i++) {
   
