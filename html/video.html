@@ -32,22 +32,21 @@
 <body>
   <nav class="site-nav">
     <div class="container">
-        <div class="site-navigation">
-            <a href="../index.html" class="logo m-0">Home</a>
-            <!--     
+      <div class="site-navigation">
+        <a href="../index.html" class="logo m-0">Home</a>
+        <!--     
             <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
                 <li class="active"><a href="index.html">Home</a></li>
             </ul> -->
 
-            <a href="#"
-                class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
-                data-toggle="collapse" data-target="#main-navbar">
-                <span></span>
-            </a>
+        <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
+          data-toggle="collapse" data-target="#main-navbar">
+          <span></span>
+        </a>
 
-        </div>
+      </div>
     </div>
-</nav>
+  </nav>
   <div class="hero">
     <!-- Maybe add image to top left corner -->
     <!-- <img src="../images/logonobackground.png" alt="Image"> -->
@@ -143,11 +142,11 @@
         <p>Select Project Version Number to Pull</p>
         <!-- <input type="text" class="form-control" placeholder="Enter art project name here..."> -->
         <p>
-          <input type="radio" id="1.0.0" name="radio-group" checked>
+          <input type="radio" value="1.0.0" name="radio-group" checked>
           <label for="1.0.0">Version 1.0.0</label>
         </p>
         <p>
-          <input type="radio" id="1.1.0" name="radio-group">
+          <input type="radio" value="1.1.0" name="radio-group">
           <label for="1.1.0">Version 1.1.0</label>
         </p>
         <!-- Need to populate this dynamically later -->
@@ -156,7 +155,7 @@
         <!-- Need to implement this button type -->
         <!-- Need to figure out how to initiate download here -->
         <a href="video.html">
-          <button type="pull-pull" style="width: 100%;" class="btn btn-primary btn-block">Download Version</button>
+          <button id="pull-pull" style="width: 100%;" class="btn btn-primary btn-block">Download Version</button>
         </a>
       </div>
     </div>
@@ -171,15 +170,14 @@
       </div>
       <div class="modal-body">
         <input type="file" id="myFile" name="filename">
-        <input type="text" class="form-control" placeholder="Author Name">
-        <input type="text" class="form-control" placeholder="Version Number">
-        <!-- Make this one a bigger text box?? -->
-        <input type="text" class="form-control" placeholder="Commit Description">
+        <input type="text" id="author" class="form-control" placeholder="Author Name">
+        <input type="text" id="version" class="form-control" placeholder="Version Number">
+        <input type="text" id="commit" class="form-control" placeholder="Commit Description">
       </div>
       <div class="modal-footer">
         <!-- Need to implement this button type correctly -->
         <a href="video.html">
-          <button type="push-push" style="width: 100%;" class="btn btn-primary btn-block">Push Art Commit</button>
+          <button id="push-push" style="width: 100%;" class="btn btn-primary btn-block">Push Art Commit</button>
         </a>
       </div>
     </div>
@@ -192,10 +190,14 @@
     // Get the button that opens the modal
     var btn = document.getElementById("pull-btn");
     var btn2 = document.getElementById("push-btn");
+    var pullbtn = document.getElementById("pull-pull");
+    var pushbtn = document.getElementById("push-push");
 
     // Get the <span> element that closes the modal
     var span = document.getElementById("pullClose");
     var span2 = document.getElementById("pushClose");
+
+    var upload = document.getElementById("myFile");
 
     // When the user clicks the button, open the modal 
     btn.onclick = function () {
@@ -203,6 +205,25 @@
     }
     btn2.onclick = function () {
       modal2.style.display = "block";
+    }
+    pullbtn.onclick = function () {
+      radioButtons = document.querySelectorAll('input[name="radio-group"]');
+      let selectedVersion;
+      for (const radioButton of radioButtons) {
+        if (radioButton.checked) {
+          selectedVersion = radioButton.value;
+          break;
+        }
+      }
+      console.log("Selected version: "+selectedVersion);
+      // TO DO: retrieve selected version from database/estuary and display link/initiate download for user
+    }
+    pushbtn.onclick = function () {
+      var author = document.getElementById('author').value
+      var version = document.getElementById('version').value
+      var commit = document.getElementById('commit').value
+      console.log("Author: " + author + " Version: " + version + " Commit: " + commit);
+      // TO DO: Handle the estuary stuff from here with CID and also pass into database
     }
 
     // When the user clicks on <span> (x), close the modal
@@ -221,6 +242,23 @@
       if (event.target == modal2) {
         modal2.style.display = "none";
       }
+    }
+    upload.onchange = function (e) {
+      const formData = new FormData();
+      formData.append("data", e.target.files[0]);
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.open(
+        "POST",
+        "https://upload.estuary.tech/content/add"
+      );
+      xhr.setRequestHeader(
+        "Authorization",
+        "Bearer ESTf9583d6f-1a54-4fa8-89d0-fb8e83a61793ARY" // CAN REPLACE THIS WITH API KEY
+      );
+      var output = xhr.send(formData);
+      console.log(output);
     }
   </script>
   <br>
