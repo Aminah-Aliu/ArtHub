@@ -54,9 +54,49 @@
       <div class="row align-items-center">
         <div class="col-lg-6 mx-auto text-center">
           <div class="intro-wrap">
-            <h1 class="mb-0">Video Title</h1>
-            <p class="text-white">Need to fix this part later to insert video metadata details </p>
+            <h1 id="title" class="mb-0">${urlParams.get("name")}</h1>
+            <p id="desc" class="text-white">Need to fix this part later to insert video metadata details </p>
           </div>
+          <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const cid = urlParams.get('cid');
+            const name = urlParams.get('name');
+            const description = urlParams.get('description');
+            
+            fetch(`http://localhost:5001/collection?cid=${cid}`)
+            .then(res=>res.json())
+            .then(data=>{
+                if (!data){
+                  pass;
+                }
+                else{
+                  data.forEach(element => {
+                    var toAdd = `<li class="list-group-item">
+                    <div class="row">
+                      <div class="col">
+                        1
+                      </div>
+                      <div class="col">
+                        ${data.contributors}
+                      </div>
+                      <div class="col">
+                        ${data.description}
+                      </div>
+                      <div class="col">
+                        ${data.updatedAt}
+                      </div>
+                    </div>
+                  </li>`;
+                  })
+                }
+            });
+            var title = document.querySelector('#title')
+            title.innerText = name;
+            var desc = document.querySelector('#desc')
+            desc.innerText = description;
+
+
+        </script>
         </div>
       </div>
     </div>
@@ -84,7 +124,7 @@
 
   <!-- grid containing actual info for each video -->
   <ul class="list-group">
-    <li class="list-group-item">
+    <!-- <li class="list-group-item">
       <div class="row">
         <div class="col">
           1
@@ -99,26 +139,7 @@
           October 12, 2022
         </div>
       </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col">
-          2
-        </div>
-        <div class="col">
-          Beyonce
-        </div>
-        <div class="col">
-          Oh another one
-        </div>
-        <div class="col">
-          February 27, 2020
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">A third item</li>
-    <li class="list-group-item">A fourth item</li>
-    <li class="list-group-item">And a fifth one</li>
+    </li> -->
   </ul>
   <br><br>
 
@@ -234,6 +255,57 @@
       var commit = document.getElementById('commit').value
       console.log("Author: " + author + " Version: " + version + " Commit: " + commit);
       // TO DO: Handle the estuary stuff from here with CID and also pass into database
+      const formData = new FormData();
+      formData.append("data", e.target.files[0]);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const cid = urlParams.get('cid');
+      const name = urlParams.get('name');
+      const description = urlParams.get('description');
+      
+      // Estuary changes
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "https://upload.estuary.tech/content/add"
+      );
+      xhr.setRequestHeader(
+        "Authorization",
+        "Bearer ESTf9583d6f-1a54-4fa8-89d0-fb8e83a61793ARY" // CAN REPLACE THIS WITH API KEY
+      );
+      var output = xhr.send(formData);
+      console.log(output);
+
+      fetch(`http://localhost:5001/video?userName=${author}&name=${name}&description=${description}&coluuid=${cid}`,
+      {
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res=>res.json())
+        .then(data=>{
+            data.forEach(element => {
+                var name = element.name;
+                var description = element.description;
+                var uuid = element.uuid;
+                var newCard = `<div class="col-4">
+                <div class="card h-100">
+                <img src="../images/thumbnails/generic_thumbnail.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Project: ${name}</h5>
+                    <p class="card-text">Description: ${description}</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn" href="./html/video.html?cid=${uuid}&name=${name}&description=${description}">${uuid}</a>
+                </div>
+                </div>
+                </div>`;
+                allVids.innerHTML += newCard;
+
+            });
+        });
     }
 
     // When the user clicks on <span> (x), close the modal

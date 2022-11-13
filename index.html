@@ -135,6 +135,7 @@
                                 var projectName = document.getElementById('newProjectName').value
                                 var user = document.getElementById('username').value
                                 // Handle file here too?
+                                
                                 console.log("Project Name: " + projectName + " User Name: " + user);
                             }
                         </script>
@@ -224,6 +225,7 @@
 
     <script src="js/custom.js"></script>
     <script>
+
         var allVids = document.querySelector('.userVideos')
         fetch("http://localhost:5001")
         .then(res=>res.json())
@@ -231,11 +233,20 @@
             data.forEach(element => {
                 var name = element.name;
                 var description = element.description;
-                var newCard = document.createElement("div");
-                newCard.innerText += name
-                newCard.innerText += description
+                var uuid = element.uuid;
+                var newCard = `<div class="col-4">
+                <div class="card h-100">
+                <a href="html/video.html?name=${name} "><img src="../images/thumbnails/generic_thumbnail.jpg" class="card-img-top" alt="..."></a>
+                <div class="card-body">
+                    <h5 class="card-title">Project: ${name}</h5>
+                    <p class="card-text">Description: ${description}</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn" href="./html/video.html?cid=${uuid}&name=${name}&description=${description}">${uuid}</a>
+                </div>
+                </div>
+                </div>`;
                 allVids.innerHTML += newCard;
-                
 
             });
         });

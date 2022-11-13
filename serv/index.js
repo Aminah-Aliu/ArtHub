@@ -90,6 +90,10 @@ app.get('/collection', async (req, res) => {
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
           const info = JSON.parse(body);
+          res.set({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        });
           res.json(info);
         } else {
           res.json(error);
