@@ -58,27 +58,12 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/video', async (req, res) => {
-    var options = {
-        url: `https://api.estuary.tech/gw/ipfs/${req.query.cid}`,
-        headers: {
-          'Authorization': 'Bearer ESTd9361342-bdef-433c-a4d6-f5160b9f7bebARY'
-        }
-      };
-    
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            //const info = JSON.parse(body);
-            // let projectDoc = admin.firestore().collection('projects').doc(req.query.coluuid);
-            // let arrUnion = projectDoc.update({
-            //     contributors: admin.firestore.FieldValue.arrayUnion(req.query.userName)
-            // });
-            console.log(body);
-            res.download(body);
-        } else {
-            res.json(error);
-        }
-    }
-    request(options, callback);
+    const siteLink = req.query.cid;
+    const collection = await admin.firestore().collection('videos').doc(siteLink);
+    const doc = await collection.get();
+    const docData = doc.data();
+    docData['downloadLink'] = `https://dweb.link/ipfs/${req.query.cid}`,
+    res.status(200).send(JSON.stringify(docData));
 })
 
 app.post('/video', async (req, res) => {    
