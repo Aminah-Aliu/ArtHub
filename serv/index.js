@@ -48,6 +48,10 @@ app.get('/', async (req, res) => {
             }
             console.log(cur);
           }
+          res.set({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        });
           res.json(info);
         } else {
           res.json(error);
