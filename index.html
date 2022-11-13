@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -8,7 +8,7 @@
         <title>VidHub</title>
         <link rel="stylesheet" href="./style.css">
         <!-- Replace favicon -->
-        <link rel="shortcut icon" href="images/favicon.png">
+        <link rel="shortcut icon" href="images/justusttv.png">
 
         <meta name="description" content="" />
         <meta name="keywords" content="bootstrap, bootstrap4" />
@@ -31,14 +31,32 @@
     </head>
 
     <body>
+        <nav class="site-nav">
+            <div class="container">
+                <div class="site-navigation">
+                    <a href="index.html" class="logo m-0">Home</a>
+                    <!--     
+                    <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+                        <li class="active"><a href="index.html">Home</a></li>
+                    </ul> -->
+
+                    <a href="#"
+                        class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"
+                        data-toggle="collapse" data-target="#main-navbar">
+                        <span></span>
+                    </a>
+
+                </div>
+            </div>
+        </nav>
         <div class="hero">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-7">
                         <div class="intro-wrap">
                             <!-- Replace part after with collaboratively, publicly, etc. -->
-                            <img src="images/logonobackground.png" alt="Image">
-                            <h1 class="mb-5"><span class="d-block"></span>Edit <span class="typed-words"></span></h1>
+                            <img src="images/whitearthublogo.png" alt="Image">
+                            <h1 class="mb-5"><span class="d-block"></span>Create <span class="typed-words"></span></h1>
 
                             <div class="row">
                                 <div class="col-12">
@@ -91,7 +109,6 @@
                         </div>
                     </div>
                 </div>
-                <button><a href="html/video.html">Go to Video (This is a temporary button!!!)</a></button>
                 <a id="createProjectButton" class="floating-button">+</a>
                 <!-- The Modal -->
                 <div id="myModal" class="modal">
@@ -102,14 +119,25 @@
                             <span class="close">&times;</span>
                         </div>
                         <div class="modal-body">
-                            <input type="text" class="form-control" placeholder="Enter art project name here...">
+                            <input type="text" id="newProjectName" class="form-control" placeholder="Art Project Name">
+                            <input type="text" id="username" class="form-control" placeholder="Creator Name">
                         </div>
-                        <div class="modal-footer"><a
-                            href="html/video.html">
-                            <button type="createProject" style="width: 100%;" class="btn btn-primary btn-block">Create New Art Project</button></a>
+                        <div class="modal-footer">
+                            <a href="html/video.html">
+                                <button id="createProject" style="width: 100%;"
+                                    class="btn btn-primary btn-block">Create New Art Project</button>
+                            </a>
+                            <script>
+                                // TO DO: CREATE NEW PROJECT GIVEN NEW NAME, ATTRIBUTED TO AUTHOR
+                                var btn = document.getElementById("createProject");
+                                btn.onclick = function () {
+                                    var projectName = document.getElementById('newProjectName').value
+                                    var user = document.getElementById('username').value
+                                    alert("Project Name: "+projectName+" User Name: "+user);
+                                }
+                            </script>
                         </div>
                     </div>
-
                 </div>
                 <script>
                     // Get the modal
@@ -138,7 +166,8 @@
                         }
                     }
                 </script>
-            </div>
+  
+      </div>
         </div>
 
         <div id="overlayer"></div>
@@ -148,7 +177,7 @@
             </div>
         </div>
         <div class="userVideos">
-            
+
         </div>
         <br>
         <script src="js/jquery-3.4.1.min.js"></script>
