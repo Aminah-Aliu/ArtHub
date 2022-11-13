@@ -23,9 +23,7 @@ newCard = `<div class="col-sm-4">
 var limit = 4;
 for (var i=0; i < limit; i++) {
   
-    $('
-    
-    .dynCards').append(newCard);
+    $('.dynCards').append(newCard);
     
     // check index is counting correctly
     console.log(i);
